@@ -11,22 +11,33 @@ import { isAnyoneAlive } from "./isAnyoneAlive";
  * @param htmlElement {HTMLElement} - элемент, в котором будет отрисована игра
  * @returns void
  */
-export function createGameOfLife(sizeX, sizeY, htmlElement) {
+export function createGameOfLife(
+  sizeX: number,
+  sizeY: number,
+  htmlElement: HTMLElement
+) {
   let gameIsRunning = false;
-  let timer;
+  let timer: number;
 
   // Создать блок для поля
   // Создать кнопку управления игрой
-  htmlElement.innerHTML = `<div class="field-wrapper"></div><button>Start</button>`;
+  /* htmlElement.innerHTML = `<div class="field-wrapper"></div><button>Start</button>`;
   const fieldWrapper = htmlElement.querySelector(".field-wrapper");
-  const button = htmlElement.querySelector("button");
+  const button = htmlElement.querySelector("button"); */
+  const button: HTMLButtonElement = document.createElement("button");
+  const fieldWrapper: HTMLDivElement = document.createElement("div");
+  button.innerHTML = "Start";
+  fieldWrapper.classList.add("field-wrapper");
+  htmlElement.appendChild(fieldWrapper);
+  htmlElement.appendChild(button);
 
   // Создать поле заданного размера
-  let field = Array.from({ length: sizeY }).map(() =>
-    Array.from({ length: sizeX }).fill(0)
+
+  let field = Array.from<number>({ length: sizeY }).map(() =>
+    Array.from<number>({ length: sizeX }).fill(0)
   );
 
-  const cellClickHandler = (x, y) => {
+  const cellClickHandler = (x: number, y: number) => {
     field[y][x] = field[y][x] === 0 ? 1 : 0;
     drawField(fieldWrapper, field, cellClickHandler);
   };
@@ -48,7 +59,7 @@ export function createGameOfLife(sizeX, sizeY, htmlElement) {
     gameIsRunning = true;
     button.innerHTML = "Stop";
     // - запустить таймер для обновления поля
-    timer = setInterval(() => {
+    timer = window.setInterval(() => {
       // В таймере обновления поля
       // - посчитать новое состояние поля
       // - отрисовать новое состояние поля
